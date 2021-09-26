@@ -3,6 +3,10 @@ package com.payroll;
 import java.util.*;
 
 public class EmployeePayrollService {
+	public enum IOService {
+		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
+	}
+
 	private List<EmployeePayrollData> employeePayrollList;
 
 	public EmployeePayrollService() {
@@ -13,6 +17,17 @@ public class EmployeePayrollService {
 		this.employeePayrollList = employeePayrollList;
 	}
 
+	public void writeEmployeePayrollData(EmployeePayrollService.IOService fileIo) {
+		if (fileIo.equals(IOService.CONSOLE_IO)) {
+			System.out.println("\n Writing Employee Payroll Roaster to Console\n" + employeePayrollList);
+		} else if (fileIo.equals(IOService.FILE_IO)) {
+			new EmployeePayrollFileIOService().writeData(employeePayrollList);
+		}
+	}
+	public long countEntries(IOService ioService)
+	{  
+		return new EmployeePayrollFileIOService().countEntries();
+	}
 	/*
 	 * method to read employee detail from the user
 	 */
@@ -25,7 +40,7 @@ public class EmployeePayrollService {
 		double salary = consoleInputReader.nextDouble();
 		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
 	}
-	
+
 	/*
 	 * method to print employee detail to the console
 	 */

@@ -17,7 +17,7 @@ public class Java8WatchService {
 	private final WatchService watcher;
 	private final Map<WatchKey, Path> dirWatchers;
 
-	Java8WatchService(Path dir) throws IOException {
+	public Java8WatchService(Path dir) throws IOException {
 		this.watcher = FileSystems.getDefault().newWatchService();
 		this.dirWatchers = new HashMap<WatchKey, Path>();
 		scanAndRegisterDirectories(dir);
@@ -39,6 +39,7 @@ public class Java8WatchService {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public
 	void processEvents() {
 		while (true) {
 			WatchKey Key;// wait for key to be signalled

@@ -5,6 +5,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
@@ -39,8 +40,7 @@ public class Java8WatchService {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public
-	void processEvents() {
+	public void processEvents() {
 		while (true) {
 			WatchKey Key;// wait for key to be signalled
 			try {
@@ -77,5 +77,10 @@ public class Java8WatchService {
 					break;
 			}
 		}
+	}
+	
+	public static void main(String[] args) throws IOException {
+		Path dir = Paths.get("src/main/java/com/payroll");
+		new Java8WatchService(dir).processEvents();
 	}
 }

@@ -25,12 +25,27 @@ public class EmployeePayrollFileIOService {
 		}
 	}
 	/*
-	 * Employee Payroll to get count
+	 * Method to get count of payroll
 	 */
 	public long countEntries() {
 		long entries = 0;
 		try {
 			entries = Files.lines(new File(PAYROLL_FILE_NAME).toPath()).count();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return entries;
+	}
+	
+	/**
+	 * Method to print the data of the payroll
+	 * @return each payroll
+	 */
+	public long printData() {
+		long entries = 0;
+		try {
+			entries = Files.lines(new File(PAYROLL_FILE_NAME).toPath()).count();
+			Files.lines(new File(PAYROLL_FILE_NAME).toPath()).forEach(System.out::println);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

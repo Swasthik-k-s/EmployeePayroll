@@ -17,14 +17,6 @@ public class EmployeePayrollService {
 		this.employeePayrollList = employeePayrollList;
 	}
 
-	public void writeEmployeePayrollData(EmployeePayrollService.IOService fileIo) {
-		if (fileIo.equals(IOService.CONSOLE_IO)) {
-			System.out.println("\n Writing Employee Payroll Roaster to Console\n" + employeePayrollList);
-		} else if (fileIo.equals(IOService.FILE_IO)) {
-			new EmployeePayrollFileIOService().writeData(employeePayrollList);
-		}
-	}
-	
 	/*
 	 * method to read employee detail from the user
 	 */
@@ -38,16 +30,19 @@ public class EmployeePayrollService {
 		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
 	}
 
-	public long countEntries(IOService ioService)
-	{  
+	public long countEntries() {
 		return new EmployeePayrollFileIOService().countEntries();
 	}
 	
 	/*
 	 * method to print employee detail to the console
 	 */
-	private void writeEmployeePayrollData(Scanner consoleInputReader) {
-		System.out.println("\nWriting Employee Payroll to Console \n" + employeePayrollList);
+	public void writeEmployeePayrollData(IOService ioService) {
+		if (ioService.equals(IOService.CONSOLE_IO)) {
+			System.out.println("\nWriting Employee Payroll roaster to console\n" + employeePayrollList);
+		} else if (ioService.equals(IOService.FILE_IO)) {
+			new EmployeePayrollFileIOService().writeData(employeePayrollList);
+		}
 	}
 	
 	public long printData() {
@@ -59,7 +54,13 @@ public class EmployeePayrollService {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
 		Scanner consoleInputReader = new Scanner(System.in);
 		employeePayrollService.readEmployeePayrollData(consoleInputReader);
-		employeePayrollService.writeEmployeePayrollData(consoleInputReader);
+		employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
 		consoleInputReader.close();
+	}
+	
+	public long readFromFile() {
+		this.employeePayrollList = new EmployeePayrollFileIOService().readData();
+		System.out.println(employeePayrollList.size());
+		return this.employeePayrollList.size();
 	}
 }
